@@ -8,7 +8,14 @@
   },
   "keywords": [],
   "author": "Matthias Freßdorf <mfressdorf@gmail.com> (http://mfressdorf.de)",
-  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mfressdorf/api-monkey"
+  },
+  "licenses": {
+    "type": "MIT",
+    "url": "https://github.com/mfressdorf/api-monkey/blob/master/LICENSE.md"
+  },
   "devDependencies": {
     "chai": "^3.5.0",
     "express": "^4.13.4",
