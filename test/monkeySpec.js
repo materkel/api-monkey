@@ -4,6 +4,7 @@ const chai = require('chai');
 const expect = chai.expect;
 const supertest = require('supertest');
 const express = require('express');
+const request = require('request-promise');
 const apiMonkey = require('../index');
 const app = express();
 const port = process.env.PORT || process.env.port || 3000;
@@ -11,8 +12,17 @@ const port = process.env.PORT || process.env.port || 3000;
 app.use(apiMonkey());
 
 app.get('/test', (req, res) => {
-  console.log('sending...');
-  res.json({ test: true });
+  request.get({
+    uri: `http://localhost:${port}/nested`,
+    headers: req.monkeyHeaders
+  })
+  .then(data => {
+    res.status(200).end();
+  });
+});
+
+app.get('/nested', (req, res) => {
+  res.status(200).end();
 });
 
 app.listen(port);
@@ -26,14 +36,12 @@ describe('A normal Request', () => {
     let startTime = new Date().getTime();
     supertest(app)
       .get('/test')
-      .set('Accept', 'application/json')
-      .expect('Content-Type', /json/)
       .expect(200)
       .end((err, res) => {
         if (!err && res) {
           let endTime = new Date().getTime();
           let executionTime = endTime - startTime;
-          expect(executionTime).to.be.lessThan(100);
+          expect(executionTime).to.be.lessThan(200);
         }
         done(err);
       });
@@ -46,14 +54,12 @@ describe('A monkey Request', () => {
     supertest(app)
       .get('/test')
       .set('Monkey_GET_test', 'none/none')
-      .set('Accept', 'application/json')
-      .expect('Content-Type', /json/)
       .expect(200)
       .end((err, res) => {
         if (!err && res) {
           let endTime = new Date().getTime();
           let executionTime = endTime - startTime;
-          expect(executionTime).to.be.lessThan(100);
+          expect(executionTime).to.be.lessThan(200);
         }
         done(err);
       });
@@ -64,14 +70,12 @@ describe('A monkey Request', () => {
     supertest(app)
       .get('/test')
       .set('Monkey_GET_test', '1000/none')
-      .set('Accept', 'application/json')
-      .expect('Content-Type', /json/)
       .expect(200)
       .end((err, res) => {
         if (!err && res) {
           let endTime = new Date().getTime();
           let executionTime = endTime - startTime;
-          expect(executionTime).to.be.greaterThan(500);
+          expect(executionTime).to.be.greaterThan(1000);
         }
         done(err);
       });
@@ -87,7 +91,7 @@ describe('A monkey Request', () => {
         if (!err && res) {
           let endTime = new Date().getTime();
           let executionTime = endTime - startTime;
-          expect(executionTime).to.be.lessThan(100);
+          expect(executionTime).to.be.lessThan(200);
         }
         done(err);
       });
@@ -103,7 +107,23 @@ describe('A monkey Request', () => {
         if (!err && res) {
           let endTime = new Date().getTime();
           let executionTime = endTime - startTime;
-          expect(executionTime).to.be.greaterThan(500);
+          expect(executionTime).to.be.greaterThan(1000);
+        }
+        done(err);
+      });
+  });
+
+  it('should be delayed with forwarded monkey header', done => {
+    let startTime = new Date().getTime();
+    supertest(app)
+      .get('/test')
+      .set('Monkey_GET_nested', '1000/none')
+      .expect(200)
+      .end((err, res) => {
+        if (!err && res) {
+          let endTime = new Date().getTime();
+          let executionTime = endTime - startTime;
+          expect(executionTime).to.be.greaterThan(1000);
         }
         done(err);
       });
