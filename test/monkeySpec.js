@@ -97,6 +97,22 @@ describe('A monkey Request', () => {
       });
   });
 
+  it('should throw a custom error', done => {
+    let startTime = new Date().getTime();
+    supertest(app)
+      .get('/test')
+      .set('Monkey_GET_test', 'none/404')
+      .expect(404)
+      .end((err, res) => {
+        if (!err && res) {
+          let endTime = new Date().getTime();
+          let executionTime = endTime - startTime;
+          expect(executionTime).to.be.lessThan(200);
+        }
+        done(err);
+      });
+  });
+
   it('should throw a delayed error', done => {
     let startTime = new Date().getTime();
     supertest(app)

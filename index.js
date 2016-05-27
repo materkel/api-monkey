@@ -26,10 +26,25 @@ module.exports = () => {
 
     if (header) {
       let [ delay, error ] = header.split('/');
-      error = (error === 'true') ? new Error(`500`) : null;
+
+      switch (error) {
+        case 'true':
+          error = 500;
+          break;
+        case 'none':
+          error = null;
+          break;
+        default:
+          // set custom error if specified
+          error = parseInt(error);
+      }
       delay = (delay !== 'none') ? delay : 0;
-      return setTimeout(next, delay, error);
+
+      if (error !== null) {
+        return setTimeout(() => res.status(error).end(), delay);
+      }
+      return setTimeout(next, delay);
     }
-    next()
+    next();
   };
 }
