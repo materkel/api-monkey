@@ -1,7 +1,6 @@
 # API-Monkey
 
 Middleware for testing multi layered express APIs.
-docs coming soon...
 
 ## Usage
 
@@ -54,11 +53,19 @@ Delay requests to /test/:id
     ...
 ```
 
-Get Error on a request
+Get Error on a request (default Error statuscode is 500)
 
 ```
   headers: {
     'monkey_get_test': 'none/true'
+  }
+```
+
+Get custom Error on a request
+
+```
+  headers: {
+    'monkey_get_test': 'none/404'
   }
 ```
 
