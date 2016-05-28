@@ -6,7 +6,7 @@ Middleware for testing multi layered express APIs.
 
 Add API-Monkey to your express applications
 
-```
+```js
   const express = require('express');
   const apiMonkey = require('../index');
   const app = express();
@@ -22,7 +22,7 @@ Add API-Monkey to your express applications
 
 Then add information about which API Endpoints you want to delay/error in the header of your requests.
 
-```
+```js
   const request = require('request-promise');
 
   request
@@ -41,7 +41,7 @@ Then add information about which API Endpoints you want to delay/error in the he
 ### Request Headers
 
 Delay requests to /test/:id
-```
+```js
   request
     .get({
       uri: '/test/12345',
@@ -55,15 +55,15 @@ Delay requests to /test/:id
 
 Get Error on a request (default Error statuscode is 500)
 
-```
+```js
   headers: {
     'monkey_get_test': 'none/true'
   }
 ```
 
-Get custom Error on a request
+Get custom Errorcode on a request
 
-```
+```js
   headers: {
     'monkey_get_test': 'none/404'
   }
@@ -71,7 +71,7 @@ Get custom Error on a request
 
 Get delayed Error on a request
 
-```
+```js
   headers: {
     'monkey_get_test': '1000/true'
   }
@@ -81,17 +81,42 @@ Get delayed Error on a request
 
 Forward API-Monkey headers in your applications to reach and control deeper nested Endpoints
 
-```
+```js
   app.use(apiMonkey());
 
   app.get('/test', (req, res) => {
     request
       .get({
         uri: '/test2',
-        headers: req.monkeyHeaders
+        headers: req.monkeyHeaders // API-Monkey adds all monkey request headers to the express request object
       })
       .then(testData => {
         res.json(testData);
       });
   });
+```
+
+### Wildcards
+
+Match route paths with wildcards. (currently supports: "*" for single path tokens and "**" for all remaining path tokens)
+
+```js
+request
+    .get({
+      uri: '/aggregationApi',
+      headers: { 'monkey_get_info_*': '500/none'}
+    })
+    .then(res => {
+      // delayed response by ~500ms from the GET /info/:whatever API
+    })
+```
+
+Other examples:
+
+```js
+headers: { 'monkey_get_users_*_stories' : 'none/500' } // matches routes like: GET users/:id/stories
+```
+
+```js
+headers: { 'monkey_get_users_**' : 'none/500' } // matches routes like: GET users/../...
 ```
