@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/mfressdorf/api-monkey.svg?branch=master)](https://travis-ci.org/mfressdorf/api-monkey)
+
 # API-Monkey
 
 Middleware for testing multi layered express APIs.
