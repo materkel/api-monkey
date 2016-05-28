@@ -20,9 +20,39 @@ module.exports = () => {
      * handled route and initiate delay / error
      * accordingly
      */
-    const path = req.path.split('/').join('_');
-    const id = `monkey_${req.method}${path}`;
-    const header = req.get(id);
+    const path = req.path.split('/').filter(x => x !== '');
+    const id = ['monkey', req.method].concat(path);
+    let header = null;
+
+    for (let monkeyHeader in monkeyHeaders) {
+      const headerTokens = monkeyHeader.split('_');
+      let match = true;
+      for (let i = 0; i < headerTokens.length; i++) {
+        if (id[i]) {
+          if (headerTokens[i] === '*') {
+            // If the monkey header ends with a "*", make sure the
+            // current route ends too, else don't match
+            if ((i === headerTokens.length - 1) && (id[++i] !== undefined)) {
+              match = false;
+              break;
+            }
+            continue;
+          }
+          if (headerTokens[i] === '**') {
+            break;
+          }
+          if (id[i].toLowerCase() === headerTokens[i].toLowerCase()) {
+            continue;
+          }
+        }
+        match = false;
+        break;
+      }
+      if (match === true) {
+        header = monkeyHeaders[monkeyHeader];
+        break;
+      }
+    }
 
     if (header) {
       let [ delay, error ] = header.split('/');

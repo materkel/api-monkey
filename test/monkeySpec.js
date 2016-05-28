@@ -21,6 +21,10 @@ app.get('/test', (req, res) => {
   });
 });
 
+app.put('/test/:id', (req, res) => {
+  res.status(200).end();
+});
+
 app.get('/nested', (req, res) => {
   res.status(200).end();
 });
@@ -140,6 +144,22 @@ describe('A monkey Request', () => {
           let endTime = new Date().getTime();
           let executionTime = endTime - startTime;
           expect(executionTime).to.be.greaterThan(1000);
+        }
+        done(err);
+      });
+  });
+
+  it('should throw an error on a wildcard monkey route', done => {
+    let startTime = new Date().getTime();
+    supertest(app)
+      .put('/test/123')
+      .set('Monkey_PUT_test_*', 'none/true')
+      .expect(500)
+      .end((err, res) => {
+        if (!err && res) {
+          let endTime = new Date().getTime();
+          let executionTime = endTime - startTime;
+          expect(executionTime).to.be.lessThan(200);
         }
         done(err);
       });
