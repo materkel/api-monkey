@@ -2,7 +2,8 @@
 
 # API-Monkey
 
-Middleware for testing multi layered express APIs.
+Middleware for test simulations with multi layered [Express](http://expressjs.com/) APIs.  
+Delay requests to specific API Endpoints and return custom Error codes.
 
 ## Usage
 
