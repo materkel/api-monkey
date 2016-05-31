@@ -101,7 +101,7 @@ Forward API-Monkey headers in your applications to reach and control deeper nest
 
 ### Wildcards
 
-Match route paths with wildcards. (currently supports: "*" for single path tokens and "**" for all remaining path tokens)
+Match route paths with wildcards. (currently supports: "\*" for single path tokens and "\*\*" for all remaining path tokens)
 
 ```js
 request
