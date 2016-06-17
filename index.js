@@ -56,7 +56,7 @@ module.exports = () => {
 
     if (header) {
       let [ delay, error ] = header.split('/');
-
+      // set error code
       switch (error) {
         case 'true':
           error = 500;
