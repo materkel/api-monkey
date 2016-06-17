@@ -1,12 +1,12 @@
 {
   "name": "api-monkey",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "node_modules/.bin/mocha"
   },
-  "keywords": [],
+  "keywords": ["express", "api", "error", "test"],
   "author": "Matthias Freßdorf <mfressdorf@gmail.com> (http://mfressdorf.de)",
   "repository": {
     "type": "git",
