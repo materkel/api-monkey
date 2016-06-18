@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/mfressdorf/api-monkey.svg?branch=master)](https://travis-ci.org/mfressdorf/api-monkey)
+[![Build Status](https://travis-ci.org/mfressdorf/api-monkey.svg?branch=master)](https://travis-ci.org/mfressdorf/api-monkey) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/mfressdorf/api-monkey/master/LICENSE)
 
 # API-Monkey
 
@@ -7,11 +7,17 @@ Delay requests to specific API Endpoints and return custom Error codes.
 
 ## Usage
 
-Add API-Monkey to your express applications
+Add API-Monkey to your project
+
+```bash
+npm install api-monkey --save-dev
+```
+
+Use API-Monkey in your express applications
 
 ```js
   const express = require('express');
-  const apiMonkey = require('../index');
+  const apiMonkey = require('api-monkey');
   const app = express();
 
   app.use(apiMonkey());
