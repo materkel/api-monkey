@@ -1,6 +1,6 @@
 {
   "name": "api-monkey",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Middleware for test simulations with multi layered Express APIs. Delay requests to specific API Endpoints and return custom Error codes.",
   "main": "index.js",
   "scripts": {
@@ -16,7 +16,7 @@
       "node_modules"
     ]
   },
-  "keywords": [],
+  "keywords": ["express", "middleware", "api", "error", "test", "delay", "requests"],
   "author": "Matthias Freßdorf <mfressdorf@gmail.com> (http://mfressdorf.de)",
   "repository": {
     "type": "git",
