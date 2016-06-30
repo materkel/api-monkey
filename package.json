@@ -1,6 +1,6 @@
 {
   "name": "api-monkey",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Middleware for test simulations with multi layered Express APIs. Delay requests to specific API Endpoints and return custom Error codes.",
   "main": "index.js",
   "scripts": {
